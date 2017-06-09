@@ -1,0 +1,92 @@
+"""repuestos URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/1.11/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.conf.urls import url, include
+    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+"""
+from django.conf.urls import url, include
+from django.contrib import admin
+
+from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
+from rest_framework.documentation import include_docs_urls
+
+# from rest_framework.documentation import include_docs_urls
+
+# from repuestos import settings
+
+from ia import views
+from ia.views import selectraw
+from ia.views import reporte
+# from ia.views import generate_pdf
+# from ia.views import gen_pdf
+
+# from django_pdfkit import PDFView
+from ia.views import VistaPDF
+from ia.views import convpdf
+
+router = routers.DefaultRouter()
+
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+
+router.register(r'pais', views.PaisViewSet)
+router.register(r'estado', views.EstadoViewSet)
+router.register(r'ciudad', views.CiudadViewSet)
+
+
+# router.register(r'userextension', views.UserExtensionViewSet)
+router.register(r'cia', views.CiaViewSet)
+router.register(r'usercia', views.UserCiaViewSet)
+router.register(r'ciaconsecutivo', views.CiaConsecutivoViewSet)
+router.register(r'userlog', views.UserLogViewSet)
+router.register(r'persona', views.PersonaViewSet)
+router.register(r'personajuridica', views.PersonaJuridicaViewSet)
+router.register(r'personanatural', views.PersonaNaturalViewSet)
+router.register(r'producto', views.ProductoViewSet)
+router.register(r'direccion', views.DireccionViewSet)
+router.register(r'sesiontrabajo', views.SesionTrabajoViewSet)
+router.register(r'docrep', views.DocRepViewSet)
+router.register(r'docrepdet', views.DocRepDetViewSet)
+
+# Cia
+# UserCia
+# UserLog
+# Persona
+# PersonaJuridica 
+# PersonaNatural 
+# Producto
+# Direccion
+# SesionTrabajo
+# DocRep 
+# DocRepDet
+
+urlpatterns = [
+	url(r'^api-token-auth/', obtain_jwt_token),
+	url(r'^admin/', admin.site.urls),
+	url(r'^docs/', include_docs_urls(title='API Taller')),
+	url(r'^', include(router.urls)),
+	url(r'^selectraw/', selectraw),
+	url(r'^reporte/', reporte),
+	url(r'^convpdf/', convpdf),
+	url(r'^estados-pdf/$', VistaPDF.as_view(template_name='estados-pdf.html'), name='estados-pdf'),
+	# url(r'^my-pdf/$', VistaPDF.as_view(template_name='my-pdf.html'), name='my-pdf'),
+	# url(r'^my-pdf/$', PDFView.as_view(template_name='my-pdf.html'), name='my-pdf'),
+	# url(r'^my-pdf/$', PDFView.as_view(template_name='my-pdf.html',context='{'a':'1','b':'2'}'), name='my-pdf'),
+	# url(r'^pdf/', generate_pdf),
+	# url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+]
+
+# from django.conf.urls.defaults import *
+# urlpatterns = patterns('',
+#     (r'^admin/', include('django.contrib.admin.urls')),
+# )

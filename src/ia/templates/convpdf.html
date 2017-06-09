@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba para Convertir a PDF (convpdf)</title>
+</head>
+<body>
+    <div>
+        <h1><a href="/">Estados en la BD</a></h1>
+    </div>
+  {% for estado in estados %}
+    <p>Estado: {{ estado.nombre }} , {{ estado.codigo }}</p>
+  {% endfor %}
+</body>
+</html>
